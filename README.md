@@ -61,8 +61,6 @@ node tools/get-industry-analysis.mjs
 │   ├── get-fund-scale.mjs              # 资金流向/规模变化
 │   ├── get-portfolio.mjs               # 持仓管理
 │   ├── get-portfolio-summary.mjs       # 持仓汇总
-│   ├── get-transactions.mjs            # 交易记录
-│   ├── analyze-profit.mjs              # 收益分析
 │   ├── analyze-portfolio-risk.mjs      # 持仓风险评估
 │   └── simulate-drip.mjs               # 定投模拟
 ```
