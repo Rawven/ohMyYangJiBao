@@ -1,12 +1,16 @@
-// 获取交易记录
-import { api, parseArgs } from './api.js'
+// 交易记录 — 从本地文件读取
+import { parseArgs, readTransactions } from './api.js'
 
 export default async function getTransactions(page = 1, size = 20) {
-  return api(`/api/transactions?page=${page}&size=${size}`)
+  let list = readTransactions()
+  list.sort((a, b) => new Date(b.transactionDate) - new Date(a.transactionDate))
+  const total = list.length
+  const start = (page - 1) * size
+  return { total, page, size, items: list.slice(start, start + size) }
 }
 
 const args = parseArgs()
 if (import.meta.url === process.argv[1]) {
-  const result = await getTransactions(args.page, args.size)
+  const result = await getTransactions(Number(args.page) || 1, Number(args.size) || 20)
   console.log(JSON.stringify(result, null, 2))
 }

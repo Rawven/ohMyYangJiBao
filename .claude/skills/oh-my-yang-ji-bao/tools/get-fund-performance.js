@@ -1,4 +1,4 @@
-// 获取基金阶段收益率（近1周/1月/3月/6月/1年/3年/今年以来）
+// 基金阶段收益率（近1周/1月/3月/6月/1年/3年/今年以来）
 import { parseArgs } from './api.js'
 import getNavHistory from './get-nav-history.js'
 
@@ -8,7 +8,7 @@ export default async function getFundPerformance(code) {
   if (!navList?.length) return { fundCode: code, message: '暂无净值数据' }
 
   navList.sort((a, b) => a.date.localeCompare(b.date))
-  const latest = navList[navList.length - 1]
+  const latest = navList.at(-1)
   const today = new Date()
 
   const periods = {
@@ -32,8 +32,7 @@ export default async function getFundPerformance(code) {
       periodResults.push({
         period: name,
         returnRate: Math.round((latest.nav - start.nav) / start.nav * 10000) / 100,
-        startDate: start.date,
-        startNav: start.nav
+        startDate: start.date, startNav: start.nav
       })
     } else {
       periodResults.push({ period: name, returnRate: null, startDate: null, startNav: null })

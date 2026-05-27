@@ -1,4 +1,4 @@
-// 定投收益模拟 — 基于历史净值模拟每月定投
+// 定投模拟 — 基于历史净值计算每月定投收益
 import { parseArgs } from './api.js'
 import getNavHistory from './get-nav-history.js'
 

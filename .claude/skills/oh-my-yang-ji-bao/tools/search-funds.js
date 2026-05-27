@@ -1,17 +1,25 @@
-// 搜索基金列表 — 支持关键字、类型、公司、净值范围、涨跌幅范围筛选
-import { api, parseArgs } from './api.js'
+// 搜索基金 — 从天天基金 10000+ 基金列表中筛选
+import { parseArgs } from './api.js'
+import { getFundList } from './api.js'
 
-export default async function searchFunds(params = {}) {
-  const q = new URLSearchParams()
-  for (const [k, v] of Object.entries(params)) {
-    if (v != null && v !== '') q.set(k, v)
+export default async function searchFunds({ keyword, type, company, page = 1, size = 20 } = {}) {
+  let list = await getFundList()
+
+  if (keyword) {
+    const kw = keyword.toLowerCase()
+    list = list.filter(f => f.code.includes(kw) || f.name.includes(kw))
   }
-  if (!q.has('page')) q.set('page', '1')
-  if (!q.has('size')) q.set('size', '20')
-  return api(`/api/funds?${q}`)
+  if (type) {
+    list = list.filter(f => f.type.includes(type))
+  }
+
+  const total = list.length
+  const start = (page - 1) * size
+  const items = list.slice(start, start + size).map(f => ({ code: f.code, name: f.name, type: f.type }))
+
+  return { total, page, size, items }
 }
 
-// 命令行入口
 const args = parseArgs()
 if (import.meta.url === process.argv[1]) {
   const result = await searchFunds(args)

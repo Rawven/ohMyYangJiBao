@@ -1,11 +1,16 @@
-// 获取基金经理信息
-import { api, parseArgs } from './api.js'
+// 获取基金经理信息 — 从天天基金详情页抓取
+import { parseArgs, fetchUrl, extractByPattern } from './api.js'
 
 export default async function getFundManager(code) {
   if (!code) throw new Error('基金代码不能为空')
-  // 后端无独立接口时从基金详情抓取
-  const detail = await api(`/api/funds/${code.trim()}`)
-  return { fundCode: code.trim(), fundName: detail?.name }
+  code = code.trim()
+
+  const html = await (await fetchUrl(`https://fundf10.eastmoney.com/jbgk_${code}.html`)).text()
+
+  const managerName = extractByPattern(html, /基金经理[^<]*<[^>]*>([^<]+)</)
+  const company = extractByPattern(html, /基金管理人[^<]*<[^>]*>([^<]+)</)
+
+  return { fundCode: code, managerName, company }
 }
 
 const args = parseArgs()

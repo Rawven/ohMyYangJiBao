@@ -1,10 +1,17 @@
-// 获取基金费率信息
-import { api, parseArgs } from './api.js'
+// 获取基金费率 — 从天天基金详情页抓取
+import { parseArgs, fetchUrl, extractByPattern } from './api.js'
 
 export default async function getFundFees(code) {
   if (!code) throw new Error('基金代码不能为空')
-  const detail = await api(`/api/funds/${code.trim()}`)
-  return { fundCode: code.trim(), fundName: detail?.name }
+  code = code.trim()
+
+  const html = await (await fetchUrl(`https://fundf10.eastmoney.com/jbgk_${code}.html`)).text()
+
+  const managementFee = extractByPattern(html, /管理费率[^：:]*[：:]([^%\n]+%)/)
+  const custodianFee = extractByPattern(html, /托管费率[^：:]*[：:]([^%\n]+%)/)
+  const serviceFee = extractByPattern(html, /销售服务费率[^：:]*[：:]([^%\n]+%)/)
+
+  return { fundCode: code, managementFee, custodianFee, serviceFee }
 }
 
 const args = parseArgs()

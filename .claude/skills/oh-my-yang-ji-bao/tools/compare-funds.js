@@ -1,9 +1,20 @@
-// 对比多只基金的核心指标和前三大持仓
-import { api, parseArgs } from './api.js'
+// 对比多只基金 — 同时获取多只基金详情+持仓
+import { parseArgs } from './api.js'
+import getFundDetail from './get-fund-detail.js'
+import getFundHoldings from './get-fund-holdings.js'
 
 export default async function compareFunds(codesStr) {
   if (!codesStr) throw new Error('基金代码不能为空')
-  return api(`/api/funds/compare?codes=${encodeURIComponent(codesStr)}`)
+  const codes = codesStr.split(',').map(c => c.trim()).filter(Boolean)
+
+  const results = await Promise.allSettled(codes.map(async code => {
+    const detail = await getFundDetail(code)
+    let holdings = []
+    try { const h = await getFundHoldings(code); holdings = (h.holdings || []).slice(0, 3) } catch {}
+    return { ...detail, topHoldings: holdings }
+  }))
+
+  return results.map(r => r.status === 'fulfilled' ? r.value : { code: 'error', error: r.reason?.message })
 }
 
 const args = parseArgs()

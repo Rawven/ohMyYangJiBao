@@ -1,4 +1,4 @@
-// 获取基金风险指标（最大回撤、波动率、胜率）
+// 基金风险指标（最大回撤、年化波动率、胜率）
 import { parseArgs } from './api.js'
 import getNavHistory from './get-nav-history.js'
 
@@ -16,7 +16,7 @@ export default async function getFundRiskMetrics(code) {
     else { const dd = (h.nav - peakNav) / peakNav * 100; if (dd < maxDrawdown) { maxDrawdown = dd; troughDate = h.date } }
   }
 
-  // 波动率
+  // 年化波动率（近60交易日）
   const recent = navList.slice(-60)
   const dr = []
   for (let i = 1; i < recent.length; i++) {
