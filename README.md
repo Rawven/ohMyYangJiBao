@@ -16,6 +16,14 @@
 | 行业分析 | 查看申万一级行业的资金流向和热度 |
 | 指数估值 | 主要指数的 PE/PB 估值百分位 |
 
+## 界面预览
+
+| AI 对话 | 总览 |
+|:-------:|:----:|
+| ![chat](screenshots/chat.png) | ![dashboard](screenshots/dashboard.png) |
+| **基金市场** | **我的持仓** |
+| ![funds](screenshots/funds.png) | ![portfolio](screenshots/portfolio.png) |
+
 ## 快速开始
 
 ### 后端
