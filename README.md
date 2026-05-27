@@ -6,26 +6,30 @@
 
 ```bash
 # 查询基金
-node .claude/skills/oh-my-yang-ji-bao/tools/search-funds.js --keyword=易方达
-node .claude/skills/oh-my-yang-ji-bao/tools/get-fund-detail.js --code=001856
-node .claude/skills/oh-my-yang-ji-bao/tools/get-fund-performance.js --code=001856
+node tools/search-funds.js --keyword=易方达
+node tools/get-fund-detail.js --code=001856
+node tools/get-fund-performance.js --code=001856
 
 # 市场行情
-node .claude/skills/oh-my-yang-ji-bao/tools/get-index-valuation.js
-node .claude/skills/oh-my-yang-ji-bao/tools/get-market-news.js
+node tools/get-index-valuation.js
+node tools/get-market-news.js
 
 # 持仓分析
-node .claude/skills/oh-my-yang-ji-bao/tools/get-fund-holdings.js --code=001856
-node .claude/skills/oh-my-yang-ji-bao/tools/compare-funds.js --codes=001856,005844
+node tools/get-fund-holdings.js --code=001856
+node tools/compare-funds.js --codes=001856,005844
 ```
 
-## 结构
+## 项目结构
 
 ```
-.claude/skills/oh-my-yang-ji-bao/
-├── skill.md          # Claude Code 技能定义
-├── package.json      # Node.js ESM 配置
-└── tools/
+├── skill.md              # Claude Code 技能定义
+├── package.json          # Node.js ESM 配置
+├── README.md
+├── .gitignore
+├── .claude/
+│   └── skills/
+│       └── oh-my-yang-ji-bao/   # Claude Code 发现入口（符号链接）
+└── tools/                       # 全部工具脚本
     ├── api.js                               # 公共模块（HTTP/JSONP/缓存）
     ├── search-funds.js                      # 搜索基金
     ├── get-fund-detail.js                   # 基金详情
@@ -65,3 +69,9 @@ node .claude/skills/oh-my-yang-ji-bao/tools/compare-funds.js --codes=001856,0058
 
 - Node.js **v18+** 或 Bun
 - 无需 `npm install`，零依赖
+
+## 安装为 Claude Code 技能
+
+```bash
+ln -s "$PWD" ~/.claude/skills/oh-my-yang-ji-bao
+```

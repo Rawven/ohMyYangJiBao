@@ -148,10 +148,10 @@ export function parseArgs() {
 }
 
 // 检测是否被直接运行（兼容 Bun 和 Node）
+import { resolve } from 'path'
 export function isMainModule(metaUrl) {
-  // Bun: import.meta.path === process.argv[1]
-  // Node: import.meta.url === 'file://' + process.argv[1]
   if (typeof process === 'undefined' || !process.argv[1]) return false
-  const argPath = process.argv[1]
-  return metaUrl === argPath || metaUrl === `file://${argPath}`
+  const absPath = resolve(process.argv[1])
+  const fileUrl = `file://${encodeURI(absPath)}`
+  return metaUrl === absPath || metaUrl === fileUrl
 }
