@@ -1,6 +1,6 @@
 // 基金资金流向 — 从天天基金规模变化数据抓取
-import { fetchUrl, extractByPattern, extractAllByPattern } from './api.js'
-import { getFundList } from './api.js'
+import { isMainModule,  fetchUrl, extractByPattern, extractAllByPattern } from './api.js'
+import { isMainModule,  getFundList } from './api.js'
 
 export default async function getFundFlow() {
   // 获取热门基金列表，尝试获取规模变化
@@ -41,7 +41,7 @@ export default async function getFundFlow() {
   return result.slice(0, 15)
 }
 
-if (import.meta.url === process.argv[1]) {
+if (isMainModule(import.meta.url)) {
   const result = await getFundFlow()
   console.log(JSON.stringify(result, null, 2))
 }

@@ -1,6 +1,5 @@
 // 搜索基金 — 从天天基金 10000+ 基金列表中筛选
-import { parseArgs } from './api.js'
-import { getFundList } from './api.js'
+import { parseArgs, getFundList, isMainModule } from './api.js'
 
 export default async function searchFunds({ keyword, type, company, page = 1, size = 20 } = {}) {
   let list = await getFundList()
@@ -21,7 +20,7 @@ export default async function searchFunds({ keyword, type, company, page = 1, si
 }
 
 const args = parseArgs()
-if (import.meta.url === process.argv[1]) {
+if (isMainModule(import.meta.url)) {
   const result = await searchFunds(args)
   console.log(JSON.stringify(result, null, 2))
 }

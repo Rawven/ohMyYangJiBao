@@ -25,8 +25,8 @@ export function stripJsonp(text) {
   const idx = text.search(/[{[]/)
   if (idx === -1) return text.trim()
   let s = text.slice(idx).trim()
-  // 去掉末尾的 );
-  s = s.replace(/\);?\s*$/, ')')
+  // 去掉末尾的 );，保留纯 JSON
+  s = s.replace(/\)\s*;?\s*$/, '')
   return s
 }
 
@@ -69,11 +69,12 @@ export async function getRealtimeNav(code) {
 // ---------- 历史净值（东方财富 API）----------
 export async function getNavHistoryFromApi(code, days = 365) {
   const allData = []
-  const pageSize = Math.min(days, 50)
-  const maxPages = Math.ceil(days / pageSize)
+  // 该 API 强制每页 20 条，不受 pageSize 参数影响
+  const pageSize = 20
+  const totalPages = Math.ceil(days / pageSize)
 
-  for (let page = 1; page <= maxPages; page++) {
-    const url = `https://api.fund.eastmoney.com/f10/lsjz?fundCode=${code}&pageIndex=${page}&pageSize=${pageSize}`
+  for (let page = 1; page <= totalPages; page++) {
+    const url = `https://api.fund.eastmoney.com/f10/lsjz?fundCode=${code}&pageIndex=${page}&pageSize=50`
     const text = await (await fetchUrl(url, {
       headers: { 'Referer': `https://fundf10.eastmoney.com/jbgk_${code}.html` }
     })).text()
@@ -83,6 +84,7 @@ export async function getNavHistoryFromApi(code, days = 365) {
     for (const item of list) {
       allData.push({ date: item.FSRQ, nav: Number(item.DWJZ) })
     }
+    // 不足一页说明到末尾了
     if (list.length < pageSize) break
   }
 
@@ -143,4 +145,13 @@ export function parseArgs() {
     args[k] = v ?? true
   }
   return args
+}
+
+// 检测是否被直接运行（兼容 Bun 和 Node）
+export function isMainModule(metaUrl) {
+  // Bun: import.meta.path === process.argv[1]
+  // Node: import.meta.url === 'file://' + process.argv[1]
+  if (typeof process === 'undefined' || !process.argv[1]) return false
+  const argPath = process.argv[1]
+  return metaUrl === argPath || metaUrl === `file://${argPath}`
 }

@@ -1,6 +1,6 @@
 // 行业分析 — 返回 A 股主要行业板块数据
 // 使用申万一级行业分类
-import { parseArgs, fetchUrl } from './api.js'
+import { isMainModule,  parseArgs, fetchUrl } from './api.js'
 
 const INDUSTRIES = [
   '食品饮料', '医药生物', '电子', '计算机', '电力设备', '机械设备',
@@ -73,7 +73,7 @@ export default async function getIndustryAnalysis(industry) {
 }
 
 const args = parseArgs()
-if (import.meta.url === process.argv[1]) {
+if (isMainModule(import.meta.url)) {
   const result = await getIndustryAnalysis(args.industry)
   console.log(JSON.stringify(result, null, 2))
 }

@@ -1,5 +1,5 @@
 // 基金排行 — 从天天基金行情中心爬取涨幅榜
-import { parseArgs, fetchUrl, extractByPattern } from './api.js'
+import { isMainModule,  parseArgs, fetchUrl, extractByPattern } from './api.js'
 
 export default async function getFundRankings({ type, orderBy = 'dayIncrease', orderDir = 'desc', topN = 20 } = {}) {
   // 使用天天基金排行页面
@@ -41,7 +41,7 @@ export default async function getFundRankings({ type, orderBy = 'dayIncrease', o
 }
 
 const args = parseArgs()
-if (import.meta.url === process.argv[1]) {
+if (isMainModule(import.meta.url)) {
   const result = await getFundRankings(args)
   console.log(JSON.stringify(result, null, 2))
 }

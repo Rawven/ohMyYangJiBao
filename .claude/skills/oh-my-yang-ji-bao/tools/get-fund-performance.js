@@ -1,10 +1,10 @@
 // 基金阶段收益率（近1周/1月/3月/6月/1年/3年/今年以来）
-import { parseArgs } from './api.js'
+import { isMainModule,  parseArgs } from './api.js'
 import getNavHistory from './get-nav-history.js'
 
 export default async function getFundPerformance(code) {
   if (!code) throw new Error('基金代码不能为空')
-  const navList = await getNavHistory(code)
+  const navList = await getNavHistory(code, 1095)
   if (!navList?.length) return { fundCode: code, message: '暂无净值数据' }
 
   navList.sort((a, b) => a.date.localeCompare(b.date))
@@ -43,7 +43,7 @@ export default async function getFundPerformance(code) {
 }
 
 const args = parseArgs()
-if (import.meta.url === process.argv[1]) {
+if (isMainModule(import.meta.url)) {
   if (!args.code) { console.error('用法: bun run get-fund-performance.js --code=110011'); process.exit(1) }
   const result = await getFundPerformance(args.code)
   console.log(JSON.stringify(result, null, 2))

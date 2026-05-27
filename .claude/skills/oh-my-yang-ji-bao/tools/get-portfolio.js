@@ -1,6 +1,6 @@
 // 我的持仓 — 从本地文件 ~/.ohmyyangjibao/holdings.json 读取
 // 通过 add-holding.js / remove-holding.js 管理
-import { readHoldings } from './api.js'
+import { isMainModule,  readHoldings } from './api.js'
 
 export default async function getPortfolio() {
   const holdings = readHoldings()
@@ -27,7 +27,7 @@ export default async function getPortfolio() {
   return enriched
 }
 
-if (import.meta.url === process.argv[1]) {
+if (isMainModule(import.meta.url)) {
   const result = await getPortfolio()
   console.log(JSON.stringify(result, null, 2))
 }

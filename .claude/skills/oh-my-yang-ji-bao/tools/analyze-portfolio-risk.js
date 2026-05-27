@@ -71,7 +71,7 @@ export default async function analyzePortfolioRisk() {
   return { totalFunds: holdings.length, totalValue: Math.round(totalValue * 100) / 100, riskLevel, summary, distributions, industryExposure: sortedIndustries, warnings }
 }
 
-if (import.meta.url === process.argv[1]) {
+if (isMainModule(import.meta.url)) {
   const result = await analyzePortfolioRisk()
   console.log(JSON.stringify(result, null, 2))
 }

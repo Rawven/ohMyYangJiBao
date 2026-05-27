@@ -1,7 +1,6 @@
 // 热门基金 — 从基金列表中随机取一批（无后端时无法按涨跌幅排序）
 // 如需真实排行，可调用天天基金页面爬取
-import { parseArgs } from './api.js'
-import { getFundList } from './api.js'
+import { isMainModule, parseArgs, getFundList } from './api.js'
 
 export default async function getTopFunds(type, topN = 20) {
   let list = await getFundList()
@@ -15,7 +14,7 @@ export default async function getTopFunds(type, topN = 20) {
 }
 
 const args = parseArgs()
-if (import.meta.url === process.argv[1]) {
+if (isMainModule(import.meta.url)) {
   const result = await getTopFunds(args.type, Number(args.topN) || 20)
   console.log(JSON.stringify(result, null, 2))
 }

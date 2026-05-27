@@ -1,5 +1,5 @@
 // 定投模拟 — 基于历史净值计算每月定投收益
-import { parseArgs } from './api.js'
+import { isMainModule,  parseArgs } from './api.js'
 import getNavHistory from './get-nav-history.js'
 
 export default async function simulateDrip(code, amount = 1000, months = 12) {
@@ -47,7 +47,7 @@ export default async function simulateDrip(code, amount = 1000, months = 12) {
 }
 
 const args = parseArgs()
-if (import.meta.url === process.argv[1]) {
+if (isMainModule(import.meta.url)) {
   if (!args.code) { console.error('用法: bun run simulate-drip.js --code=110011 --amount=1000 --months=12'); process.exit(1) }
   const result = await simulateDrip(args.code, Number(args.amount) || 1000, Number(args.months) || 12)
   console.log(JSON.stringify(result, null, 2))

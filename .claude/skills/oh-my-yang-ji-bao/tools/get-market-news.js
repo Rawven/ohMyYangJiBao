@@ -1,5 +1,5 @@
 // 市场新闻简报 — 从东方财富抓取头条新闻
-import { fetchUrl } from './api.js'
+import { isMainModule,  fetchUrl } from './api.js'
 
 export default async function getMarketNews() {
   const html = await (await fetchUrl('https://finance.eastmoney.com/', {
@@ -39,7 +39,7 @@ export default async function getMarketNews() {
   }
 }
 
-if (import.meta.url === process.argv[1]) {
+if (isMainModule(import.meta.url)) {
   const result = await getMarketNews()
   console.log(JSON.stringify(result, null, 2))
 }

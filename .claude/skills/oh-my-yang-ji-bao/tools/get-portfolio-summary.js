@@ -19,7 +19,7 @@ export default async function getPortfolioSummary() {
   return { totalMarketValue, totalCost, totalProfit, totalProfitRate, distribution }
 }
 
-if (import.meta.url === process.argv[1]) {
+if (isMainModule(import.meta.url)) {
   const result = await getPortfolioSummary()
   console.log(JSON.stringify(result, null, 2))
 }

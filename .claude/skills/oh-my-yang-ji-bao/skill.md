@@ -63,13 +63,16 @@ metadata:
 ## 执行方式
 
 ```bash
-# 所有脚本直接用 Bun 运行，无需任何 npm 依赖
+# Node.js（v18+，内置 package.json 支持 ESM）或 Bun 均可
+node tools/get-index-valuation.js
+node tools/search-funds.js --keyword=易方达 --type=混合型
+node tools/get-fund-detail.js --code=110011
+node tools/get-fund-performance.js --code=110011
+node tools/compare-funds.js --codes=110011,005844
+node tools/simulate-drip.js --code=110011 --amount=1000 --months=12
+
+# 用 Bun 也可以（无需 package.json）
 bun run tools/get-index-valuation.js
-bun run tools/search-funds.js --keyword=易方达 --type=混合型
-bun run tools/get-fund-detail.js --code=110011
-bun run tools/get-fund-performance.js --code=110011
-bun run tools/compare-funds.js --codes=110011,005844
-bun run tools/simulate-drip.js --code=110011 --amount=1000 --months=12
 
 # 数据存储位置
 ls -la ~/.ohmyyangjibao/

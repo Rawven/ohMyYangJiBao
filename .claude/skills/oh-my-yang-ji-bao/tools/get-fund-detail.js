@@ -1,5 +1,5 @@
 // 获取基金详情 — 从天天基金实时净值 API + 基金列表
-import { parseArgs, getRealtimeNav, getFundList, extractByPattern, fetchUrl } from './api.js'
+import { parseArgs, getRealtimeNav, getFundList, extractByPattern, fetchUrl, isMainModule } from './api.js'
 
 export default async function getFundDetail(code) {
   if (!code) throw new Error('基金代码不能为空')
@@ -17,7 +17,7 @@ export default async function getFundDetail(code) {
   let establishDate = null, company = null
   try {
     const html = await (await fetchUrl(`https://fundf10.eastmoney.com/jbgk_${code}.html`)).text()
-    company = extractByPattern(html, /基金管理人[^<]*<[^>]*>([^<]+)</)
+    company = extractByPattern(html, /基金管理人[\s\S]*?<a[^>]*>([^<]+)<\/a>/)
     const est = extractByPattern(html, /成立日期[^<]*<[^>]*>([\d-]+)</)
     if (est) establishDate = est
   } catch {}
@@ -35,7 +35,7 @@ export default async function getFundDetail(code) {
 }
 
 const args = parseArgs()
-if (import.meta.url === process.argv[1]) {
+if (isMainModule(import.meta.url)) {
   if (!args.code) { console.error('用法: bun run get-fund-detail.js --code=110011'); process.exit(1) }
   const result = await getFundDetail(args.code)
   console.log(JSON.stringify(result, null, 2))
