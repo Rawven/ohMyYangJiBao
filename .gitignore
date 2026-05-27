@@ -35,6 +35,17 @@ fund-tracker-web/.agents/
 # --- Build artifacts ---
 *.tsbuildinfo
 
+# --- Agent/Dev tooling ---
+skills-lock.json
+design-system/
+
+# --- Planning docs (project-internal, not needed by users) ---
+docs/superpowers/
+fund-tracker-server/docs/superpowers/
+
 # --- Runtime ---
 *.pid
 *.seed
+
+# --- Local test scripts ---
+test-ai-chat.sh
