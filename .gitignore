@@ -1,13 +1,6 @@
-# --- Java / Maven ---
-fund-tracker-server/target/
-*.class
-*.jar
-*.war
-*.log
-
-# --- Node / Vite ---
-fund-tracker-web/node_modules/
-fund-tracker-web/dist/
+# --- OS ---
+.DS_Store
+Thumbs.db
 
 # --- IDE ---
 .idea/
@@ -16,36 +9,17 @@ fund-tracker-web/dist/
 *.swp
 *.swo
 
-# --- OS ---
-.DS_Store
-Thumbs.db
-
-# --- Env (contains secrets) ---
-.env
-fund-tracker-server/.env
-
-# --- H2 database ---
-fund-tracker-server/data/
-fund-tracker-web/data/
-
-# --- Agent skills (not project code) ---
-.agents/
-fund-tracker-web/.agents/
-
-# --- Build artifacts ---
-*.tsbuildinfo
-
-# --- Agent/Dev tooling ---
-skills-lock.json
-design-system/
-
-# --- Planning docs (project-internal, not needed by users) ---
-docs/superpowers/
-fund-tracker-server/docs/superpowers/
-
 # --- Runtime ---
+*.log
 *.pid
 *.seed
 
-# --- Local test scripts ---
-test-ai-chat.sh
+# --- Node ---
+node_modules/
+
+# --- Env ---
+.env
+
+# --- Build ---
+dist/
+*.tsbuildinfo
