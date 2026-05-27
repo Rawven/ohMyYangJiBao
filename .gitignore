@@ -1,0 +1,40 @@
+# --- Java / Maven ---
+fund-tracker-server/target/
+*.class
+*.jar
+*.war
+*.log
+
+# --- Node / Vite ---
+fund-tracker-web/node_modules/
+fund-tracker-web/dist/
+
+# --- IDE ---
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+
+# --- Env (contains secrets) ---
+.env
+fund-tracker-server/.env
+
+# --- H2 database ---
+fund-tracker-server/data/
+fund-tracker-web/data/
+
+# --- Agent skills (not project code) ---
+.agents/
+fund-tracker-web/.agents/
+
+# --- Build artifacts ---
+*.tsbuildinfo
+
+# --- Runtime ---
+*.pid
+*.seed
