@@ -1,5 +1,5 @@
 // 获取基金历史净值 — 从东方财富 API 直接爬取
-import { isMainModule, parseArgs, getNavHistoryFromApi } from './api.js'
+import { isMainModule, parseArgs, getNavHistoryFromApi } from './api.mjs'
 
 export default async function getNavHistory(code, days = 365) {
   if (!code) throw new Error('基金代码不能为空')

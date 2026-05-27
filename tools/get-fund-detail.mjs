@@ -1,5 +1,5 @@
 // 获取基金详情 — 从天天基金实时净值 API + 基金列表
-import { parseArgs, getRealtimeNav, getFundList, extractByPattern, fetchUrl, isMainModule } from './api.js'
+import { parseArgs, getRealtimeNav, getFundList, extractByPattern, fetchUrl, isMainModule } from './api.mjs'
 
 export default async function getFundDetail(code) {
   if (!code) throw new Error('基金代码不能为空')
@@ -11,7 +11,7 @@ export default async function getFundDetail(code) {
 
   // 实时净值
   let realtime = null
-  try { realtime = await getRealtimeNav(code) } catch {}
+  try { realtime = await getRealtimeNav(code) } catch (e) { console.warn(`获取实时净值失败 ${code}:`, e.message) }
 
   // 从详情页抓取成立日期和公司
   let establishDate = null, company = null
@@ -20,7 +20,7 @@ export default async function getFundDetail(code) {
     company = extractByPattern(html, /基金管理人[\s\S]*?<a[^>]*>([^<]+)<\/a>/)
     const est = extractByPattern(html, /成立日期[^<]*<[^>]*>([\d-]+)</)
     if (est) establishDate = est
-  } catch {}
+  } catch (e) { console.warn(`获取 F10 详情失败 ${code}:`, e.message) }
 
   return {
     code,

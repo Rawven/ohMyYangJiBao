@@ -1,6 +1,6 @@
 // 我的持仓 — 从本地文件 ~/.ohmyyangjibao/holdings.json 读取
 // 通过 add-holding.js / remove-holding.js 管理
-import { isMainModule,  readHoldings } from './api.js'
+import { isMainModule,  readHoldings } from './api.mjs'
 
 export default async function getPortfolio() {
   const holdings = readHoldings()

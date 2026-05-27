@@ -1,5 +1,5 @@
 // 获取基金经理信息 — 从天天基金详情页抓取
-import { parseArgs, fetchUrl, extractByPattern, isMainModule } from './api.js'
+import { parseArgs, fetchUrl, extractByPattern, isMainModule } from './api.mjs'
 
 export default async function getFundManager(code) {
   if (!code) throw new Error('基金代码不能为空')

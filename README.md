@@ -2,58 +2,67 @@
 
 **OhMyYangJiBao** — 个人 A 股基金投资分析助手，基于 Claude Code 技能，零依赖抓取天天基金/东方财富/腾讯行情公开数据。
 
-![preview](preview.png)
-
 ## 快速开始
 
 ```bash
-# 查询基金
-node tools/search-funds.js --keyword=易方达
-node tools/get-fund-detail.js --code=001856
-node tools/get-fund-performance.js --code=001856
+# 综合查询（推荐）
+node tools/analyze-fund.mjs --code=001856
 
-# 市场行情
-node tools/get-index-valuation.js
-node tools/get-market-news.js
+# 搜索基金
+node tools/search-funds.mjs --keyword=易方达
+
+# 基金详情
+node tools/get-fund-detail.mjs --code=001856
+
+# 阶段收益
+node tools/get-fund-performance.mjs --code=001856
 
 # 持仓分析
-node tools/get-fund-holdings.js --code=001856
-node tools/compare-funds.js --codes=001856,005844
+node tools/get-fund-holdings.mjs --code=001856
+
+# 对比多只基金
+node tools/compare-funds.mjs --codes=001856,005844
+
+# 市场行情
+node tools/get-index-valuation.mjs
+node tools/get-market-news.mjs
+
+# 基金排行
+node tools/get-fund-rankings.mjs --type=混合型 --topN=10
+
+# 行业板块
+node tools/get-industry-analysis.mjs
 ```
 
 ## 项目结构
 
 ```
 ├── skill.md              # Claude Code 技能定义
-├── package.json          # Node.js ESM 配置
 ├── README.md
 ├── .gitignore
-├── .claude/
-│   └── skills/
-│       └── oh-my-yang-ji-bao/   # Claude Code 发现入口（符号链接）
-└── tools/                       # 全部工具脚本
-    ├── api.js                               # 公共模块（HTTP/JSONP/缓存）
-    ├── search-funds.js                      # 搜索基金
-    ├── get-fund-detail.js                   # 基金详情
-    ├── get-fund-performance.js              # 阶段收益率
-    ├── get-fund-holdings.js                 # 前十大持仓
-    ├── get-fund-manager.js                  # 基金经理
-    ├── get-fund-fees.js                     # 费率
-    ├── get-fund-risk-metrics.js             # 风险指标
-    ├── get-nav-history.js                   # 历史净值
-    ├── compare-funds.js                     # 基金对比
-    ├── get-index-valuation.js               # 指数估值
-    ├── get-industry-analysis.js             # 行业板块
-    ├── get-market-news.js                   # 财经新闻
-    ├── get-fund-flow.js                     # 资金流向
-    ├── get-fund-rankings.js                 # 基金排行
-    ├── get-top-funds.js                     # 热门推荐
-    ├── get-portfolio.js                     # 持仓管理
-    ├── get-portfolio-summary.js             # 持仓汇总
-    ├── get-transactions.js                  # 交易记录
-    ├── analyze-profit.js                    # 收益分析
-    ├── analyze-portfolio-risk.js            # 持仓风险评估
-    └── simulate-drip.js                     # 定投模拟
+├── tools/                # 全部工具脚本（.mjs ESM）
+│   ├── api.js → api.mjs               # 公共模块（HTTP/JSONP/缓存）
+│   ├── analyze-fund.mjs                # 一键基金分析（推荐）
+│   ├── search-funds.mjs                # 搜索基金
+│   ├── get-fund-detail.mjs             # 基金详情
+│   ├── get-fund-performance.mjs        # 阶段收益率
+│   ├── get-fund-holdings.mjs           # 前十大持仓
+│   ├── get-fund-manager.mjs            # 基金经理
+│   ├── get-fund-fees.mjs               # 费率
+│   ├── get-fund-risk-metrics.mjs       # 风险指标
+│   ├── get-nav-history.mjs             # 历史净值
+│   ├── compare-funds.mjs               # 基金对比
+│   ├── get-index-valuation.mjs         # 指数估值
+│   ├── get-industry-analysis.mjs       # 行业板块
+│   ├── get-market-news.mjs             # 财经新闻
+│   ├── get-fund-rankings.mjs           # 基金排行
+│   ├── get-fund-scale.mjs              # 资金流向/规模变化
+│   ├── get-portfolio.mjs               # 持仓管理
+│   ├── get-portfolio-summary.mjs       # 持仓汇总
+│   ├── get-transactions.mjs            # 交易记录
+│   ├── analyze-profit.mjs              # 收益分析
+│   ├── analyze-portfolio-risk.mjs      # 持仓风险评估
+│   └── simulate-drip.mjs               # 定投模拟
 ```
 
 ## 数据源

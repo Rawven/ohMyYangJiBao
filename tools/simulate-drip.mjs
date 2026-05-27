@@ -1,6 +1,6 @@
 // 定投模拟 — 基于历史净值计算每月定投收益
-import { isMainModule,  parseArgs } from './api.js'
-import getNavHistory from './get-nav-history.js'
+import { isMainModule,  parseArgs } from './api.mjs'
+import getNavHistory from './get-nav-history.mjs'
 
 export default async function simulateDrip(code, amount = 1000, months = 12) {
   if (!code) throw new Error('基金代码不能为空')

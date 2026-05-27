@@ -1,5 +1,5 @@
 // 持仓盈亏汇总
-import getPortfolio from './get-portfolio.js'
+import getPortfolio from './get-portfolio.mjs'
 
 export default async function getPortfolioSummary() {
   const holdings = await getPortfolio()

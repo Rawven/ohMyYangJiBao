@@ -1,6 +1,6 @@
 // 基金风险指标（最大回撤、年化波动率、胜率）
-import { isMainModule,  parseArgs } from './api.js'
-import getNavHistory from './get-nav-history.js'
+import { isMainModule,  parseArgs } from './api.mjs'
+import getNavHistory from './get-nav-history.mjs'
 
 export default async function getFundRiskMetrics(code) {
   if (!code) throw new Error('基金代码不能为空')

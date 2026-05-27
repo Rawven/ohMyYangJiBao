@@ -1,5 +1,5 @@
 // 获取基金前十大持仓 — 从天天基金页面抓取
-import { parseArgs, fetchUrl, extractByPattern, extractAllByPattern, isMainModule } from './api.js'
+import { parseArgs, fetchUrl, extractByPattern, extractAllByPattern, isMainModule } from './api.mjs'
 
 export default async function getFundHoldings(code) {
   if (!code) throw new Error('基金代码不能为空')

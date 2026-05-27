@@ -1,5 +1,5 @@
 // 交易记录 — 从本地文件读取
-import { isMainModule,  parseArgs, readTransactions } from './api.js'
+import { isMainModule,  parseArgs, readTransactions } from './api.mjs'
 
 export default async function getTransactions(page = 1, size = 20) {
   let list = readTransactions()

@@ -1,5 +1,5 @@
 // 搜索基金 — 从天天基金 10000+ 基金列表中筛选
-import { parseArgs, getFundList, isMainModule } from './api.js'
+import { parseArgs, getFundList, isMainModule } from './api.mjs'
 
 export default async function searchFunds({ keyword, type, company, page = 1, size = 20 } = {}) {
   let list = await getFundList()

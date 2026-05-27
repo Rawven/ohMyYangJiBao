@@ -1,6 +1,6 @@
 // 持仓风险评估 — 集中度 + 数量 + 行业暴露
-import getPortfolio from './get-portfolio.js'
-import getFundHoldings from './get-fund-holdings.js'
+import getPortfolio from './get-portfolio.mjs'
+import getFundHoldings from './get-fund-holdings.mjs'
 
 // 按股票名猜行业（同原 Java 逻辑）
 function guessIndustry(name) {
@@ -51,7 +51,7 @@ export default async function analyzePortfolioRisk() {
         const weight = stock.holdRatio * (h.marketValue / totalValue)
         industryExposure[ind] = (industryExposure[ind] || 0) + weight
       }
-    } catch {}
+    } catch (e) { console.warn(`获取 ${h.fundCode} 持仓失败:`, e.message) }
   }
 
   const sortedIndustries = Object.entries(industryExposure)

@@ -1,6 +1,6 @@
 // 基金阶段收益率（近1周/1月/3月/6月/1年/3年/今年以来）
-import { isMainModule,  parseArgs } from './api.js'
-import getNavHistory from './get-nav-history.js'
+import { isMainModule,  parseArgs } from './api.mjs'
+import getNavHistory from './get-nav-history.mjs'
 
 export default async function getFundPerformance(code) {
   if (!code) throw new Error('基金代码不能为空')
