@@ -2,6 +2,8 @@
 
 **OhMyYangJiBao** — 个人 A 股基金投资分析助手，基于 Claude Code 技能，零依赖抓取天天基金/东方财富/腾讯行情公开数据。
 
+![preview](preview.png)
+
 ## 快速开始
 
 ```bash
