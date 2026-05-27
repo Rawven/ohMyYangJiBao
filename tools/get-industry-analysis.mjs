@@ -31,14 +31,21 @@ export default async function getIndustryAnalysis(industryName) {
 
   // 如果指定了行业，过滤并搜索相关基金
   if (industryName) {
-    const filtered = industries.filter(i => i.industryName.includes(industryName))
+    // 语义匹配：搜索"半导体"时也匹配芯片/集成电路等
+    const keywords = industryName === '半导体'
+      ? ['半导体', '芯片', '集成电路', '封测', '元件', '电路板', '电子']
+      : [industryName]
+    const filtered = industries.filter(i => keywords.some(k => i.industryName.includes(k)))
     result = { ...result, industries: filtered }
 
     try {
-      const { getFundList } = await import('./api.js')
+      const { getFundList } = await import('./api.mjs')
       const list = await getFundList()
+      const fundKeywords = industryName === '半导体'
+          ? ['半导体', '芯片', '集成电路', '电子']
+          : [industryName]
       const relatedFunds = list
-        .filter(f => f.name.includes(industryName))
+        .filter(f => fundKeywords.some(k => f.name.includes(k)))
         .slice(0, 10)
         .map(f => ({ code: f.code, name: f.name, type: f.type }))
       result.relatedFunds = relatedFunds
