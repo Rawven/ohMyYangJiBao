@@ -140,11 +140,19 @@ export function money(v) {
 // ---------- 命令行参数 ----------
 export function parseArgs() {
   const args = {}
-  for (const arg of process.argv.slice(2)) {
+  const raw = process.argv.slice(2)
+  if (raw.includes('--help') || raw.includes('-h')) args.help = true
+  for (const arg of raw) {
     const [k, v] = arg.replace(/^--/, '').split('=')
     args[k] = v ?? true
   }
   return args
+}
+
+export function showHelp(usage, description) {
+  console.log(`用法: ${usage}\n`)
+  if (description) console.log(`${description}\n`)
+  process.exit(0)
 }
 
 // 检测是否被直接运行（兼容 Bun 和 Node）

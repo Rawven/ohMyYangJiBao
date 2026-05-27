@@ -1,0 +1,130 @@
+#!/bin/bash
+# fund — OhMyYangJiBao 统一 CLI
+# 用法: fund <command> [args]
+
+DIR="$(cd "$(dirname "$0")" && pwd)/tools"
+C="${1:-help}"; shift 2>/dev/null
+
+case "$C" in
+  analyze|a)
+    [ -z "$1" ] && { echo "用法: fund analyze <code>"; exit 1; }
+    node "$DIR/analyze-fund.mjs" --code="$1"
+    ;;
+  search|s)
+    [ -z "$1" ] && { echo "用法: fund search <keyword> [--type=类型]"; exit 1; }
+    node "$DIR/search-funds.mjs" --keyword="$1" "$@"
+    ;;
+  compare|c)
+    [ -z "$1" ] && { echo "用法: fund compare <code1,code2,...>"; exit 1; }
+    node "$DIR/compare-funds.mjs" --codes="$1"
+    ;;
+  detail|d)
+    [ -z "$1" ] && { echo "用法: fund detail <code>"; exit 1; }
+    node "$DIR/get-fund-detail.mjs" --code="$1"
+    ;;
+  holdings|hld)
+    [ -z "$1" ] && { echo "用法: fund holdings <code>"; exit 1; }
+    node "$DIR/get-fund-holdings.mjs" --code="$1"
+    ;;
+  manager|mgr)
+    [ -z "$1" ] && { echo "用法: fund manager <code>"; exit 1; }
+    node "$DIR/get-fund-manager.mjs" --code="$1"
+    ;;
+  fees)
+    [ -z "$1" ] && { echo "用法: fund fees <code>"; exit 1; }
+    node "$DIR/get-fund-fees.mjs" --code="$1"
+    ;;
+  perf|p)
+    [ -z "$1" ] && { echo "用法: fund perf <code>"; exit 1; }
+    node "$DIR/get-fund-performance.mjs" --code="$1"
+    ;;
+  risk|r)
+    [ -z "$1" ] && { echo "用法: fund risk <code>"; exit 1; }
+    node "$DIR/get-fund-risk-metrics.mjs" --code="$1"
+    ;;
+  nav|n)
+    [ -z "$1" ] && { echo "用法: fund nav <code> [--days=365]"; exit 1; }
+    node "$DIR/get-nav-history.mjs" --code="$1" "${2:+--days=$2}"
+    ;;
+  rankings|rk)
+    node "$DIR/get-fund-rankings.mjs" "${1:+--type=$1}" "$@"
+    ;;
+  valuation|v)
+    node "$DIR/get-index-valuation.mjs"
+    ;;
+  industry|ind)
+    node "$DIR/get-industry-analysis.mjs" "${1:+--industry=$1}"
+    ;;
+  news)
+    node "$DIR/get-market-news.mjs"
+    ;;
+  scale)
+    node "$DIR/get-fund-scale.mjs"
+    ;;
+  portfolio|pf)
+    node "$DIR/get-portfolio.mjs" "$@"
+    ;;
+  summary|sm)
+    node "$DIR/get-portfolio-summary.mjs"
+    ;;
+  pfrisk|pr)
+    node "$DIR/analyze-portfolio-risk.mjs"
+    ;;
+  txn|tx)
+    node "$DIR/get-transactions.mjs" "$@"
+    ;;
+  drip|sim)
+    [ -z "$1" ] && { echo "用法: fund drip <code> [金额=1000] [月数=12]"; exit 1; }
+    node "$DIR/simulate-drip.mjs" --code="$1" --amount="${2:-1000}" --months="${3:-12}"
+    ;;
+  add)
+    { [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; } && {
+      echo "用法: fund add <code> <份额> <成本价>"
+      echo "示例: fund add 001856 1000 2.5"
+      exit 1
+    }
+    node "$DIR/get-portfolio.mjs" --add="$1" --shares="$2" --cost="$3"
+    ;;
+  help|h|*)
+    echo "用法: fund <command> [args]"
+    echo ""
+    echo "基金分析:"
+    echo "  analyze  <code>          一键基金分析（推荐）"
+    echo "  search   <keyword>       按名称搜索基金"
+    echo "  compare  <code1,code2>   对比多只基金"
+    echo ""
+    echo "基金详情:"
+    echo "  detail   <code>          净值/类型/公司"
+    echo "  holdings <code>          前十大持仓"
+    echo "  manager  <code>          基金经理"
+    echo "  fees     <code>          管理费/托管费"
+    echo ""
+    echo "业绩与风险:"
+    echo "  perf     <code>          阶段收益率"
+    echo "  risk     <code>          最大回撤/波动率"
+    echo "  nav      <code> [days]   历史净值"
+    echo ""
+    echo "市场行情:"
+    echo "  valuation                指数估值 PE/PB"
+    echo "  industry  [名称]         行业板块涨跌"
+    echo "  rankings  [类型]         基金涨幅排行"
+    echo "  scale                    净申购排名"
+    echo "  news                     财经头条"
+    echo ""
+    echo "持仓管理:"
+    echo "  portfolio                查看持仓"
+    echo "  summary                  持仓盈亏汇总"
+    echo "  pfrisk                   持仓风险评估"
+    echo "  txn                      交易记录"
+    echo ""
+    echo "工具:"
+    echo "  drip     <code> [金额=1000] [月数=12]   定投模拟"
+    echo "  add      <code> <份额> <成本价>         添加持仓"
+    echo ""
+    echo "示例:"
+    echo "  fund analyze 005844"
+    echo "  fund search 易方达"
+    echo "  fund industry 半导体"
+    echo "  fund add 001856 1000 2.5"
+    ;;
+esac

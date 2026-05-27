@@ -1,6 +1,9 @@
 // 定投模拟 — 基于历史净值计算每月定投收益
-import { isMainModule,  parseArgs } from './api.mjs'
+import { isMainModule,  parseArgs, showHelp } from './api.mjs'
 import getNavHistory from './get-nav-history.mjs'
+const USAGE = 'fund drip <code> [--amount=1000] [--months=12]'
+const HELP_DESC = '定投收益模拟'
+
 
 export default async function simulateDrip(code, amount = 1000, months = 12) {
   if (!code) throw new Error('基金代码不能为空')
@@ -48,7 +51,7 @@ export default async function simulateDrip(code, amount = 1000, months = 12) {
 
 const args = parseArgs()
 if (isMainModule(import.meta.url)) {
-  if (!args.code) { console.error('用法: bun run simulate-drip.js --code=110011 --amount=1000 --months=12'); process.exit(1) }
+  if (!args.code || args.help) { showHelp(USAGE, HELP_DESC) }
   const result = await simulateDrip(args.code, Number(args.amount) || 1000, Number(args.months) || 12)
   console.log(JSON.stringify(result, null, 2))
 }

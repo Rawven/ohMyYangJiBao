@@ -69,13 +69,16 @@ metadata:
 ## 执行方式
 
 ```bash
-# Node.js（v18+）或 Bun 均可
+# 统一 CLI（推荐）
+./fund analyze 001856
+./fund search 易方达
+./fund industry 半导体
+./fund drip 110011 1000 12
+./fund add 001856 1000 2.5
+
+# 或直接调 Node（v18+）/ Bun
 node tools/search-funds.mjs --keyword=易方达
 node tools/analyze-fund.mjs --code=001856
-node tools/get-fund-rankings.mjs --type=混合型 --topN=10
-node tools/get-industry-analysis.mjs --industry=半导体
-node tools/compare-funds.mjs --codes=001856,005844
-node tools/simulate-drip.mjs --code=110011 --amount=1000 --months=12
 
 # 数据存储位置
 ls -la ~/.ohmyyangjibao/

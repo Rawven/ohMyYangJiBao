@@ -1,6 +1,9 @@
 // 基金阶段收益率（近1周/1月/3月/6月/1年/3年/今年以来）
-import { isMainModule,  parseArgs } from './api.mjs'
+import { isMainModule,  parseArgs, showHelp } from './api.mjs'
 import getNavHistory from './get-nav-history.mjs'
+const USAGE = 'fund perf <code>'
+const HELP_DESC = '阶段收益率（近1周/月/3月/6月/1年/3年/今年）'
+
 
 export default async function getFundPerformance(code) {
   if (!code) throw new Error('基金代码不能为空')
@@ -44,7 +47,7 @@ export default async function getFundPerformance(code) {
 
 const args = parseArgs()
 if (isMainModule(import.meta.url)) {
-  if (!args.code) { console.error('用法: bun run get-fund-performance.js --code=110011'); process.exit(1) }
+  if (!args.code || args.help) { showHelp(USAGE, HELP_DESC) }
   const result = await getFundPerformance(args.code)
   console.log(JSON.stringify(result, null, 2))
 }

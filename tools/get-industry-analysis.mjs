@@ -1,6 +1,9 @@
 // 行业板块分析 — 东方财富行情 API + 板块搜索
 // 支持按名称搜索行业/概念板块，实时涨跌数据
-import { isMainModule, parseArgs, fetchUrl } from './api.mjs'
+import { isMainModule, parseArgs, fetchUrl, showHelp } from './api.mjs'
+const USAGE = 'fund industry [--industry=半导体]'
+const HELP_DESC = '行业板块涨跌排行'
+
 
 function beijingDate() {
   return new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Shanghai' })
@@ -127,6 +130,7 @@ export default async function getIndustryAnalysis(industryName) {
 
 const args = parseArgs()
 if (isMainModule(import.meta.url)) {
+  if (args.help) { showHelp(USAGE, HELP_DESC) }
   const result = await getIndustryAnalysis(args.industry)
   console.log(JSON.stringify(result, null, 2))
 }

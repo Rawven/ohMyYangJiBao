@@ -1,5 +1,8 @@
 // 指数估值 — 从腾讯行情 API 获取（GBK 编码）
-import { isMainModule,  fetchUrl } from './api.mjs'
+import { parseArgs, isMainModule,  fetchUrl, showHelp } from './api.mjs'
+const USAGE = 'fund valuation'
+const HELP_DESC = '主要指数 PE/PB 估值百分位'
+
 
 // 主要指数代码
 const INDEX_CODES = ['sh000001', 'sz399001', 'sz399006', 'sh000300', 'sh000016', 'sh000688', 'sh000905', 'sh399310']
@@ -58,7 +61,9 @@ export default async function getIndexValuation() {
   return result
 }
 
+const args = parseArgs()
 if (isMainModule(import.meta.url)) {
+  if (args.help) { showHelp(USAGE, HELP_DESC) }
   const result = await getIndexValuation()
   console.log(JSON.stringify(result, null, 2))
 }

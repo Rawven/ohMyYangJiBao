@@ -1,7 +1,10 @@
 // 对比多只基金 — 同时获取多只基金详情+持仓
-import { isMainModule,  parseArgs } from './api.mjs'
+import { isMainModule,  parseArgs, showHelp } from './api.mjs'
 import getFundDetail from './get-fund-detail.mjs'
 import getFundHoldings from './get-fund-holdings.mjs'
+const USAGE = 'fund compare <code1,code2,...>'
+const HELP_DESC = '多只基金详情+持仓对比'
+
 
 export default async function compareFunds(codesStr) {
   if (!codesStr) throw new Error('基金代码不能为空')
@@ -19,7 +22,7 @@ export default async function compareFunds(codesStr) {
 
 const args = parseArgs()
 if (isMainModule(import.meta.url)) {
-  if (!args.codes) { console.error('用法: bun run compare-funds.js --codes=110011,005844'); process.exit(1) }
+  if (!args.codes || args.help) { showHelp(USAGE, HELP_DESC) }
   const result = await compareFunds(args.codes)
   console.log(JSON.stringify(result, null, 2))
 }

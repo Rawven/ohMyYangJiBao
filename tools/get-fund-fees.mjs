@@ -1,5 +1,8 @@
 // 获取基金费率 — 从天天基金详情页抓取
-import { parseArgs, fetchUrl, extractByPattern, isMainModule } from './api.mjs'
+import { parseArgs, fetchUrl, extractByPattern, isMainModule, showHelp } from './api.mjs'
+const USAGE = 'fund fees <code>'
+const HELP_DESC = '管理费/托管费/销售服务费'
+
 
 export default async function getFundFees(code) {
   if (!code) throw new Error('基金代码不能为空')
@@ -16,7 +19,7 @@ export default async function getFundFees(code) {
 
 const args = parseArgs()
 if (isMainModule(import.meta.url)) {
-  if (!args.code) { console.error('用法: bun run get-fund-fees.js --code=110011'); process.exit(1) }
+  if (!args.code || args.help) { showHelp(USAGE, HELP_DESC) }
   const result = await getFundFees(args.code)
   console.log(JSON.stringify(result, null, 2))
 }

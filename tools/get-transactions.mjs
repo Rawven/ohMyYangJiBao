@@ -1,5 +1,8 @@
 // 交易记录 — 从本地文件读取
-import { isMainModule,  parseArgs, readTransactions } from './api.mjs'
+import { isMainModule,  parseArgs, readTransactions, showHelp } from './api.mjs'
+const USAGE = 'fund txn [--page=1]'
+const HELP_DESC = '交易记录'
+
 
 export default async function getTransactions(page = 1, size = 20) {
   let list = readTransactions()
@@ -11,6 +14,7 @@ export default async function getTransactions(page = 1, size = 20) {
 
 const args = parseArgs()
 if (isMainModule(import.meta.url)) {
+  if (args.help) { showHelp(USAGE, HELP_DESC) }
   const result = await getTransactions(Number(args.page) || 1, Number(args.size) || 20)
   console.log(JSON.stringify(result, null, 2))
 }

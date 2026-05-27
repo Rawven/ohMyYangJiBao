@@ -1,6 +1,10 @@
 // 持仓风险评估 — 集中度 + 数量 + 行业暴露
+import { parseArgs, isMainModule, showHelp } from './api.mjs'
 import getPortfolio from './get-portfolio.mjs'
 import getFundHoldings from './get-fund-holdings.mjs'
+const USAGE = 'fund pfrisk'
+const HELP_DESC = '持仓风险评估'
+
 
 // 按股票名猜行业（同原 Java 逻辑）
 function guessIndustry(name) {
@@ -71,7 +75,9 @@ export default async function analyzePortfolioRisk() {
   return { totalFunds: holdings.length, totalValue: Math.round(totalValue * 100) / 100, riskLevel, summary, distributions, industryExposure: sortedIndustries, warnings }
 }
 
+const args = parseArgs()
 if (isMainModule(import.meta.url)) {
+  if (args.help) { showHelp(USAGE, HELP_DESC) }
   const result = await analyzePortfolioRisk()
   console.log(JSON.stringify(result, null, 2))
 }

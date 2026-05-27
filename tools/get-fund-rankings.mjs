@@ -1,5 +1,8 @@
 // 基金涨幅排行 — 从天天基金 rankhandler API 获取真实排行数据
-import { isMainModule, parseArgs, fetchUrl } from './api.mjs'
+import { isMainModule, parseArgs, fetchUrl, showHelp } from './api.mjs'
+const USAGE = 'fund rankings [--type=混合型] [--topN=10]'
+const HELP_DESC = '基金涨幅排行'
+
 
 // 天天基金排行数据格式（逗号分隔）：
 // 0:代码 1:名称 2:拼音 3:日期 4:单位净值 5:累计净值 6:日涨跌 7:近1周
@@ -62,6 +65,7 @@ export default async function getFundRankings({ type, orderBy = 'm1', orderDir =
 
 const args = parseArgs()
 if (isMainModule(import.meta.url)) {
+  if (args.help) { showHelp(USAGE, HELP_DESC) }
   const result = await getFundRankings(args)
   console.log(JSON.stringify(result, null, 2))
 }

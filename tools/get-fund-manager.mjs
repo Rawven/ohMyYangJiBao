@@ -1,5 +1,8 @@
 // 获取基金经理信息 — 从天天基金详情页抓取
-import { parseArgs, fetchUrl, extractByPattern, isMainModule } from './api.mjs'
+import { parseArgs, fetchUrl, extractByPattern, isMainModule, showHelp } from './api.mjs'
+const USAGE = 'fund manager <code>'
+const HELP_DESC = '基金经理信息'
+
 
 export default async function getFundManager(code) {
   if (!code) throw new Error('基金代码不能为空')
@@ -15,7 +18,7 @@ export default async function getFundManager(code) {
 
 const args = parseArgs()
 if (isMainModule(import.meta.url)) {
-  if (!args.code) { console.error('用法: bun run get-fund-manager.js --code=110011'); process.exit(1) }
+  if (!args.code || args.help) { showHelp(USAGE, HELP_DESC) }
   const result = await getFundManager(args.code)
   console.log(JSON.stringify(result, null, 2))
 }

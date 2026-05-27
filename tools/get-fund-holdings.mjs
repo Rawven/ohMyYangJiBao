@@ -1,5 +1,8 @@
 // 获取基金前十大持仓 — 从天天基金页面抓取
-import { parseArgs, fetchUrl, extractByPattern, extractAllByPattern, isMainModule } from './api.mjs'
+import { parseArgs, fetchUrl, extractByPattern, extractAllByPattern, isMainModule, showHelp } from './api.mjs'
+const USAGE = 'fund holdings <code>'
+const HELP_DESC = '前十大持仓股票'
+
 
 export default async function getFundHoldings(code) {
   if (!code) throw new Error('基金代码不能为空')
@@ -63,7 +66,7 @@ export default async function getFundHoldings(code) {
 
 const args = parseArgs()
 if (isMainModule(import.meta.url)) {
-  if (!args.code) { console.error('用法: bun run get-fund-holdings.js --code=110011'); process.exit(1) }
+  if (!args.code || args.help) { showHelp(USAGE, HELP_DESC) }
   const result = await getFundHoldings(args.code)
   console.log(JSON.stringify(result, null, 2))
 }

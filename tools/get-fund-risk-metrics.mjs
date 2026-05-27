@@ -1,6 +1,9 @@
 // 基金风险指标（最大回撤、年化波动率、胜率）
-import { isMainModule,  parseArgs } from './api.mjs'
+import { isMainModule,  parseArgs, showHelp } from './api.mjs'
 import getNavHistory from './get-nav-history.mjs'
+const USAGE = 'fund risk <code>'
+const HELP_DESC = '最大回撤/年化波动率/胜率'
+
 
 export default async function getFundRiskMetrics(code) {
   if (!code) throw new Error('基金代码不能为空')
@@ -48,7 +51,7 @@ export default async function getFundRiskMetrics(code) {
 
 const args = parseArgs()
 if (isMainModule(import.meta.url)) {
-  if (!args.code) { console.error('用法: bun run get-fund-risk-metrics.js --code=110011'); process.exit(1) }
+  if (!args.code || args.help) { showHelp(USAGE, HELP_DESC) }
   const result = await getFundRiskMetrics(args.code)
   console.log(JSON.stringify(result, null, 2))
 }

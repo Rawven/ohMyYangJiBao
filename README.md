@@ -7,11 +7,14 @@
 ## 快速上手
 
 ```bash
-# 一键基金分析（推荐入口）
-node tools/analyze-fund.mjs --code=001856
+# 统一 CLI（推荐，无需记参数名）
+./fund analyze 001856
+./fund search 易方达
+./fund industry 半导体
+./fund add 001856 1000 2.5
 
-# 搜索基金
-node tools/search-funds.mjs --keyword=易方达
+# 或直接调 Node
+node tools/analyze-fund.mjs --code=001856
 
 # 市场行情
 node tools/get-index-valuation.mjs                        # 指数估值
@@ -83,6 +86,7 @@ node tools/simulate-drip.mjs --code=110011 --amount=1000 --months=12
 ## 项目结构
 
 ```
+├── fund              # 统一 CLI 入口（chmod +x）
 ├── skill.md          # Claude Code 技能定义
 ├── README.md
 ├── .gitignore

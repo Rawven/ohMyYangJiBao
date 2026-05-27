@@ -1,5 +1,8 @@
 // 获取基金详情 — 从天天基金实时净值 API + 基金列表
-import { parseArgs, getRealtimeNav, getFundList, extractByPattern, fetchUrl, isMainModule } from './api.mjs'
+import { parseArgs, getRealtimeNav, getFundList, extractByPattern, fetchUrl, isMainModule, showHelp } from './api.mjs'
+const USAGE = 'fund detail <code>'
+const HELP_DESC = '基金详情：净值/类型/公司/成立日期'
+
 
 export default async function getFundDetail(code) {
   if (!code) throw new Error('基金代码不能为空')
@@ -36,7 +39,7 @@ export default async function getFundDetail(code) {
 
 const args = parseArgs()
 if (isMainModule(import.meta.url)) {
-  if (!args.code) { console.error('用法: bun run get-fund-detail.js --code=110011'); process.exit(1) }
+  if (!args.code || args.help) { showHelp(USAGE, HELP_DESC) }
   const result = await getFundDetail(args.code)
   console.log(JSON.stringify(result, null, 2))
 }

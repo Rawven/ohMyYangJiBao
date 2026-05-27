@@ -1,5 +1,8 @@
 // 基金规模变化排行 — 从天天基金规模数据抓取净申购/规模变动
-import { isMainModule, fetchUrl, getFundList } from './api.mjs'
+import { parseArgs, isMainModule, fetchUrl, getFundList, showHelp } from './api.mjs'
+const USAGE = 'fund scale'
+const HELP_DESC = '基金规模变化 & 净申购排名'
+
 
 export default async function getFundScale(topN = 30) {
   const list = await getFundList()
@@ -53,7 +56,9 @@ export default async function getFundScale(topN = 30) {
   }
 }
 
+const args = parseArgs()
 if (isMainModule(import.meta.url)) {
+  if (args.help) { showHelp(USAGE, HELP_DESC) }
   const result = await getFundScale()
   console.log(JSON.stringify(result, null, 2))
 }

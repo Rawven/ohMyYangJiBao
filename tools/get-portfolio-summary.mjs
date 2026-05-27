@@ -1,5 +1,9 @@
 // 持仓盈亏汇总
+import { parseArgs, isMainModule, showHelp } from './api.mjs'
 import getPortfolio from './get-portfolio.mjs'
+const USAGE = 'fund summary'
+const HELP_DESC = '持仓汇总：总市值/成本/盈亏'
+
 
 export default async function getPortfolioSummary() {
   const holdings = await getPortfolio()
@@ -19,7 +23,9 @@ export default async function getPortfolioSummary() {
   return { totalMarketValue, totalCost, totalProfit, totalProfitRate, distribution }
 }
 
+const args = parseArgs()
 if (isMainModule(import.meta.url)) {
+  if (args.help) { showHelp(USAGE, HELP_DESC) }
   const result = await getPortfolioSummary()
   console.log(JSON.stringify(result, null, 2))
 }
