@@ -4,66 +4,68 @@
 
 ![preview](preview.png)
 
-## 快速开始
+## 快速上手
 
 ```bash
-# 综合查询（推荐）
+# 一键基金分析（推荐入口）
 node tools/analyze-fund.mjs --code=001856
 
 # 搜索基金
 node tools/search-funds.mjs --keyword=易方达
 
-# 基金详情
-node tools/get-fund-detail.mjs --code=001856
+# 市场行情
+node tools/get-index-valuation.mjs                        # 指数估值
+node tools/get-industry-analysis.mjs --industry=半导体     # 行业板块
+node tools/get-fund-rankings.mjs --type=混合型 --topN=10  # 基金排行
 
-# 阶段收益
-node tools/get-fund-performance.mjs --code=001856
-
-# 持仓分析
-node tools/get-fund-holdings.mjs --code=001856
-
-# 对比多只基金
+# 基金对比
 node tools/compare-funds.mjs --codes=001856,005844
 
-# 市场行情
-node tools/get-index-valuation.mjs
-node tools/get-market-news.mjs
-
-# 基金排行
-node tools/get-fund-rankings.mjs --type=混合型 --topN=10
-
-# 行业板块
-node tools/get-industry-analysis.mjs
+# 定投模拟
+node tools/simulate-drip.mjs --code=110011 --amount=1000 --months=12
 ```
 
-## 项目结构
+## 工具一览
 
-```
-├── skill.md              # Claude Code 技能定义
-├── README.md
-├── .gitignore
-├── tools/                # 全部工具脚本（.mjs ESM）
-│   ├── api.js → api.mjs               # 公共模块（HTTP/JSONP/缓存）
-│   ├── analyze-fund.mjs                # 一键基金分析（推荐）
-│   ├── search-funds.mjs                # 搜索基金
-│   ├── get-fund-detail.mjs             # 基金详情
-│   ├── get-fund-performance.mjs        # 阶段收益率
-│   ├── get-fund-holdings.mjs           # 前十大持仓
-│   ├── get-fund-manager.mjs            # 基金经理
-│   ├── get-fund-fees.mjs               # 费率
-│   ├── get-fund-risk-metrics.mjs       # 风险指标
-│   ├── get-nav-history.mjs             # 历史净值
-│   ├── compare-funds.mjs               # 基金对比
-│   ├── get-index-valuation.mjs         # 指数估值
-│   ├── get-industry-analysis.mjs       # 行业板块
-│   ├── get-market-news.mjs             # 财经新闻
-│   ├── get-fund-rankings.mjs           # 基金排行
-│   ├── get-fund-scale.mjs              # 资金流向/规模变化
-│   ├── get-portfolio.mjs               # 持仓管理
-│   ├── get-portfolio-summary.mjs       # 持仓汇总
-│   ├── analyze-portfolio-risk.mjs      # 持仓风险评估
-│   └── simulate-drip.mjs               # 定投模拟
-```
+### 综合查询
+| 工具 | 用途 |
+|------|------|
+| `analyze-fund.mjs` | **一键分析**：净值+持仓+业绩+经理+费率+风险并行获取 |
+| `search-funds.mjs` | 按名称/代码/类型搜索 10000+ 基金 |
+| `compare-funds.mjs` | 多只基金详情+持仓对比 |
+
+### 基金详情
+| 工具 | 用途 |
+|------|------|
+| `get-fund-detail.mjs` | 净值/类型/基金公司/成立日期 |
+| `get-fund-holdings.mjs` | 前十大持仓股票 |
+| `get-fund-manager.mjs` | 基金经理姓名 |
+| `get-fund-fees.mjs` | 管理费/托管费/销售服务费 |
+
+### 业绩与风险
+| 工具 | 用途 |
+|------|------|
+| `get-fund-performance.mjs` | 近1周/1月/3月/6月/1年/3年/今年以来 |
+| `get-fund-risk-metrics.mjs` | 最大回撤/年化波动率/胜率 |
+| `get-nav-history.mjs` | 历史净值明细 |
+
+### 市场行情
+| 工具 | 用途 |
+|------|------|
+| `get-index-valuation.mjs` | 主要指数 PE/PB 估值百分位 |
+| `get-industry-analysis.mjs` | 行业板块涨跌排行 + 搜索相关基金 |
+| `get-fund-rankings.mjs` | 按类型/阶段涨幅真实排行 |
+| `get-fund-scale.mjs` | 基金规模变化 & 净申购排名 |
+| `get-market-news.mjs` | 财经头条新闻 |
+
+### 用户持仓
+| 工具 | 用途 |
+|------|------|
+| `get-portfolio.mjs` | 添加/查看持仓 |
+| `get-portfolio-summary.mjs` | 总市值/成本/盈亏/分布 |
+| `analyze-portfolio-risk.mjs` | 集中度/行业暴露/风险评级 |
+| `get-transactions.mjs` | 交易记录管理 |
+| `simulate-drip.mjs` | 定投收益模拟 |
 
 ## 数据源
 
@@ -75,14 +77,31 @@ node tools/get-industry-analysis.mjs
 | 基金详情/F10 | `fundf10.eastmoney.com` |
 | 财经新闻 | `finance.eastmoney.com` |
 | 指数行情 | `qt.gtimg.cn` |
+| 行业板块 | `push2.eastmoney.com` |
+| 基金排行 | `fund.eastmoney.com/data/rankhandler.aspx` |
 
-## 环境
+## 项目结构
 
-- Node.js **v18+** 或 Bun
-- 无需 `npm install`，零依赖
+```
+├── skill.md          # Claude Code 技能定义
+├── README.md
+├── .gitignore
+├── preview.png
+└── tools/            # 21 个 .mjs 工具脚本
+    ├── api.mjs       # 公共模块（HTTP/JSONP/缓存）
+    └── *.mjs         # 各功能脚本（见上方工具一览）
+```
+
+## 环境要求
+
+- **Node.js v18+** 或 **Bun**
+- **零依赖** — 无需 `npm install`
+- 持仓数据存储在 `~/.ohmyyangjibao/`
 
 ## 安装为 Claude Code 技能
 
 ```bash
 ln -s "$PWD" ~/.claude/skills/oh-my-yang-ji-bao
 ```
+
+安装后在 Claude Code 中通过 `/oh-my-yang-ji-bao` 即可调用。
